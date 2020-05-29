@@ -1,0 +1,34 @@
+.square-bg-image {
+  background-image: url("data:image/svg+xml,%3Csvg height='273' viewBox='0 0 380 273' width='380' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cpath d='m0 0h380v273h-380z' fill='%23fff' fill-rule='nonzero'/%3E%3Cpath d='m0 0h380v273h-380z' fill='%23d8d8d8' fill-opacity='.25'/%3E%3Cg opacity='.6583'%3E%3Cg transform='translate(94 64)'%3E%3Cpath d='m0 5.8248c0-3.217 2.6136-5.8248 5.816-5.8248h178.368c3.212 0 5.816 2.6117 5.816 5.8248v134.3504c0 3.217-2.6136 5.8248-5.816 5.8248h-178.368c-3.212 0-5.816-2.6117-5.816-5.8248zm13.1538 7.3152v119.72h163.6924v-119.72z' fill='%23fff' fill-rule='nonzero'/%3E%3Cpath d='m1.456 5.8248c0-2.4096 1.9585-4.3688 4.36-4.3688h178.368c2.406 0 4.36 1.9578 4.36 4.3688v134.3504c0 2.4096-1.9585 4.3688-4.36 4.3688h-178.368c-2.406 0-4.36-1.9578-4.36-4.3688zm10.2418 7.3152v121.176h166.6044v-122.632h-166.6044z' stroke='%23c4cacc' stroke-width='2.912'/%3E%3C/g%3E%3Cellipse cx='134.9231' cy='106.34' fill='%23fff' fill-rule='nonzero' rx='17.5385' ry='17.52'/%3E%3Cellipse cx='134.9231' cy='106.34' rx='16.0825' ry='16.064' stroke='%23c4cacc' stroke-width='2.912'/%3E%3Cg transform='translate(115 115)'%3E%3Cpath d='m145.742 57.5404-50.9654-55.5767c-2.1716-2.368-5.8456-2.517-8.2064-.3327l-34.7946 32.1918c-2.3562 2.18-6.2344 2.2284-8.652.0987l-8.5923-7.5692c-2.4212-2.133-6.0085-1.8195-8.0204.6928l-24.4445 30.5234c-.651.1404-1.1434.7234-1.1434 1.4213v13.153c0 .804.6477 1.4534 1.4466 1.4534h143.2608c.795 0 1.4465-.6506 1.4465-1.4534v-13.153c0-.7662-.5883-1.392-1.335-1.4492z' fill='%23fff' fill-rule='nonzero'/%3E%3Cpath d='m145.621 58.9914v13.1488h-143.242v-13.1498l.5005-.108.3235-.404 24.4443-30.5232c1.4935-1.865 4.125-2.093 5.9215-.5103l8.5924 7.569c2.976 2.6217 7.697 2.5663 10.6032-.1224l34.7946-32.192c1.769-1.6366 4.5183-1.525 6.1445.248l50.9654 55.577.3885.4237.5636.043z' stroke='%23c4cacc' stroke-width='2.912'/%3E%3C/g%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  width: 100%;
+  padding-top: 100%;
+  box-sizing: border-box;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+}
+
+.product-list-item {
+  border-radius: 0.2em;
+  border: 1px solid #eee;
+  padding: 0.5em;
+  margin-top: 1em;
+}
+
+.product-list-item:hover {
+  background-color: #ccc;
+  cursor: pointer;
+}
+
+a {
+  color: inherit;
+}
+
+a:hover {
+  color: inherit;
+  text-decoration: inherit;
+}
+
+textarea.form-control {
+  height: 6em;
+}
