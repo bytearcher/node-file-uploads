@@ -1,8 +1,9 @@
+const asyncHandler = require("express-async-handler");
 const Busboy = require("busboy");
 
 const dummyResponses = require("./dummyResponses");
 
-function createNewProductHandler(req, res, next) {
+async function createNewProductHandler(req, res, next) {
   const busboy = new Busboy({ headers: req.headers });
 
   busboy.on("field", (name, value) => {
@@ -19,7 +20,7 @@ function createNewProductHandler(req, res, next) {
   req.pipe(busboy);
 }
 
-const createNewProductRoute = [createNewProductHandler];
+const createNewProductRoute = [asyncHandler(createNewProductHandler)];
 
 module.exports = {
   createNewProductRoute,

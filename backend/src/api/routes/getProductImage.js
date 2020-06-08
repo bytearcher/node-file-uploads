@@ -1,6 +1,8 @@
+const asyncHandler = require("express-async-handler");
+
 const dummyResponses = require("./dummyResponses");
 
-function getProductImageHandler(req, res, next) {
+async function getProductImageHandler(req, res, next) {
   res.set({
     "Content-Type": dummyResponses.getProductImage.contentType,
     "Content-Length": dummyResponses.getProductImage.contentLength,
@@ -8,7 +10,7 @@ function getProductImageHandler(req, res, next) {
   res.send(dummyResponses.getProductImage.data);
 }
 
-const getProductImageRoute = [getProductImageHandler];
+const getProductImageRoute = [asyncHandler(getProductImageHandler)];
 
 module.exports = {
   getProductImageRoute,

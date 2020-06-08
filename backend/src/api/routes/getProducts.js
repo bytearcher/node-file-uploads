@@ -1,10 +1,12 @@
+const asyncHandler = require("express-async-handler");
+
 const dummyResponses = require("./dummyResponses");
 
-function getProductsHandler(req, res, next) {
+async function getProductsHandler(req, res, next) {
   res.send(dummyResponses.getProducts);
 }
 
-const getProductsRoute = [getProductsHandler];
+const getProductsRoute = [asyncHandler(getProductsHandler)];
 
 module.exports = {
   getProductsRoute,
