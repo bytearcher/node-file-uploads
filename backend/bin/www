@@ -7,7 +7,7 @@
 const debug = require("debug")("node-file-uploads:server");
 const http = require("http");
 
-const app = require("../app");
+const app = require("../src/api/app");
 
 /**
  * Get port from environment and store in Express.
