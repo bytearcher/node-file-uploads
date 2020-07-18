@@ -53,6 +53,24 @@ class ProductDatabase {
     );
   }
 
+  async findProduct(productId) {
+    const result = await this.connection.query(
+      `
+                SELECT product.id                                    AS "id",
+                       product.title                                 AS "title",
+                       product.manufacturer                          AS "manufacturer",
+                       product.price                                 AS "price",
+                       product.description                           AS "description",
+                       sort(array_remove(array_agg(image.id), NULL)) AS "imageIds"
+                FROM product
+                         LEFT OUTER JOIN image ON (product.id = image.product_id)
+                WHERE product.id = $1
+                GROUP BY product.id`,
+      [productId]
+    );
+    return result.rows[0];
+  }
+
   async release() {
     await this.connection.release();
   }

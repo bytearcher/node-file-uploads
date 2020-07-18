@@ -12,3 +12,5 @@ CREATE TABLE image (
   image        BYTEA        NOT NULL,
   content_type VARCHAR(255) NOT NULL
 );
+
+CREATE EXTENSION intarray;
