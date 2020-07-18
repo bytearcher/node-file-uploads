@@ -1,4 +1,5 @@
 const bytea = require("postgres-bytea");
+const cleanDeep = require("clean-deep");
 const stream = require("stream");
 const util = require("util");
 const { from: copyFrom } = require("pg-copy-streams");
@@ -69,6 +70,27 @@ class ProductDatabase {
       [productId]
     );
     return result.rows[0];
+  }
+
+  async getProducts() {
+    const result = await this.connection.query(
+      `
+                SELECT product.id                                    AS "id",
+                       product.title                                 AS "title",
+                       product.manufacturer                          AS "manufacturer",
+                       product.price                                 AS "price",
+                       substring(product.description FROM 0 FOR 100) AS "description",
+                       image.id                                      AS "representativeImageId"
+                FROM product
+                         LEFT JOIN LATERAL (SELECT id
+                                            FROM image
+                                            WHERE product_id = product.id
+                                            ORDER BY id
+                                            LIMIT 1) image ON TRUE
+                ORDER BY product.manufacturer, product.title`
+    );
+    // remove nulls with cleanDeep
+    return cleanDeep(result.rows);
   }
 
   async release() {

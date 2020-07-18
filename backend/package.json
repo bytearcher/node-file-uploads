@@ -7,6 +7,7 @@
   },
   "dependencies": {
     "busboy": "0.3.1",
+    "clean-deep": "3.3.0",
     "cookie-parser": "1.4.4",
     "cors": "2.8.5",
     "debug": "2.6.9",
