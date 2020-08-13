@@ -1,20 +1,34 @@
 const asyncHandler = require("express-async-handler");
 const Busboy = require("busboy");
 
-const dummyResponses = require("./dummyResponses");
+const { NewProductCreator } = require("../../service/createNewProduct");
 
 async function createNewProductHandler(req, res, next) {
   const busboy = new Busboy({ headers: req.headers });
+  const newProductCreator = new NewProductCreator();
 
-  busboy.on("field", (name, value) => {
-    console.log(`${name}: ${value}`);
+  async function handleError(fn) {
+    try {
+      await fn();
+    } catch (e) {
+      next(e);
+    }
+  }
+
+  busboy.on("field", async (name, value) => {
+    handleError(async () => {
+      await newProductCreator.addField(name, value);
+    });
   });
-  busboy.on("file", (name, stream, filename, encoding, contentType) => {
-    console.log(`${name}: ${filename} (${contentType})`);
-    stream.resume();
+  busboy.on("file", async (name, stream, filename, encoding, contentType) => {
+    handleError(async () => {
+      await newProductCreator.addFile(name, stream, filename, contentType);
+    });
   });
-  busboy.on("finish", () => {
-    res.send(dummyResponses.createNewProduct);
+  busboy.on("finish", async () => {
+    handleError(async () => {
+      res.send(await newProductCreator.finish());
+    });
   });
 
   req.pipe(busboy);
