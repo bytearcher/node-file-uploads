@@ -1,16 +1,50 @@
 POST / HTTP/1.1
 Host: 127.0.0.1:8080
 Connection: keep-alive
-Content-Length: 49
+Content-Length: 892
 Cache-Control: max-age=0
 Origin: http://127.0.0.1:8080
 Upgrade-Insecure-Requests: 1
 DNT: 1
-Content-Type: application/x-www-form-urlencoded
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary8UlaHHiIF9ZNw5Bf
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_6) AppleWebKit/537.36 (KHTML,
 Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,
 Referer: http://127.0.0.1:8080/
 Accept-Encoding: gzip, deflate, br
 Accept-Language: fi,en-US;q=0.9,en;q=0.8
 
-textinput=1&textarea=2&fileinput=ep4-anewhope.txt
+------WebKitFormBoundary8UlaHHiIF9ZNw5Bf
+Content-Disposition: form-data; name="textinput"
+
+1
+------WebKitFormBoundary8UlaHHiIF9ZNw5Bf
+Content-Disposition: form-data; name="textarea"
+
+2
+------WebKitFormBoundary8UlaHHiIF9ZNw5Bf
+Content-Disposition: form-data; name="fileinput"; filename="ep4-anewhope.txt"
+Content-Type: text/plain
+
+It is a period of civil war.
+Rebel spaceships, striking
+from a hidden base, have won
+their first victory against
+the evil Galactic Empire.
+
+During the battle, Rebel
+spies managed to steal secret
+plans to the Empire's
+ultimate weapon, the DEATH
+STAR, an armored space
+station with enough power to
+destroy an entire planet.
+
+Pursued by the Empire's
+sinister agents, Princess
+Leia races home aboard her
+starship, custodian of the
+stolen plans that can save
+her people and restore
+freedom to the galaxy.....
+
+------WebKitFormBoundary8UlaHHiIF9ZNw5Bf--
