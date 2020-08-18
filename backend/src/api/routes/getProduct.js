@@ -1,6 +1,12 @@
 const asyncHandler = require("express-async-handler");
+const Joi = require("@hapi/joi");
 
 const { getProduct } = require("../../service/getProduct");
+const { validator } = require("../validation");
+
+const paramsSchema = Joi.object({
+  productId: Joi.number().required(),
+});
 
 async function getProductHandler(req, res, next) {
   const { productId } = req.params;
@@ -13,7 +19,7 @@ async function getProductHandler(req, res, next) {
   res.send(product);
 }
 
-const getProductRoute = [asyncHandler(getProductHandler)];
+const getProductRoute = [validator.params(paramsSchema), asyncHandler(getProductHandler)];
 
 module.exports = {
   getProductRoute,

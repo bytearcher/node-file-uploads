@@ -6,6 +6,7 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
+    "@hapi/joi": "17.1.1",
     "busboy": "0.3.1",
     "clean-deep": "3.3.0",
     "cookie-parser": "1.4.4",
@@ -13,6 +14,7 @@
     "debug": "2.6.9",
     "express": "4.16.1",
     "express-async-handler": "1.1.4",
+    "express-joi-validation": "4.0.3",
     "morgan": "1.9.1",
     "pg": "8.3.0",
     "pg-copy-streams": "5.1.1",
