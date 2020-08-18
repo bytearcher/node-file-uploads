@@ -1,7 +1,15 @@
 const asyncHandler = require("express-async-handler");
 const Busboy = require("busboy");
+const Joi = require("@hapi/joi");
 
 const { NewProductCreator } = require("../../service/createNewProduct");
+const { validator } = require("../validation");
+
+const headersSchema = Joi.object({
+  "content-type": Joi.string()
+    .required()
+    .pattern(/^multipart\/form-data/),
+});
 
 async function createNewProductHandler(req, res, next) {
   const busboy = new Busboy({ headers: req.headers });
@@ -34,7 +42,7 @@ async function createNewProductHandler(req, res, next) {
   req.pipe(busboy);
 }
 
-const createNewProductRoute = [asyncHandler(createNewProductHandler)];
+const createNewProductRoute = [validator.headers(headersSchema), asyncHandler(createNewProductHandler)];
 
 module.exports = {
   createNewProductRoute,
