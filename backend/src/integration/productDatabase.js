@@ -112,6 +112,9 @@ class ProductDatabase {
     });
 
     fromDatabase.pipe(fieldStream);
+    fromDatabase.on("error", (error) => {
+      fieldStream.emit("error", error);
+    });
 
     return new Promise((resolve, reject) => {
       const productImage = {};
@@ -128,6 +131,15 @@ class ProductDatabase {
           productImage.stream = field.value;
           resolve(productImage);
           done = true;
+        }
+      });
+      fieldStream.on("error", (err) => {
+        if (done) {
+          // forward errors to resulting image stream, caller can then end transaction on error
+          productImage.stream.emit("error", err);
+        } else {
+          // otherwise, we're failing before stream has started, let the async call itself fail
+          reject(err);
         }
       });
       fieldStream.on("end", () => {

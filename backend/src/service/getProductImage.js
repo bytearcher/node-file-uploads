@@ -12,6 +12,9 @@ async function getProductImage(productId, imageId) {
 
     const { contentType, contentLength, stream } = image;
 
+    stream.on("error", (err) => {
+      productDatabase.rollbackAndRelease(err);
+    });
     stream.on("end", () => {
       productDatabase.commitAndRelease();
     });
