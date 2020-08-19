@@ -1,6 +1,7 @@
 const Joi = require("@hapi/joi");
 
 const { connect } = require("../integration/productDatabase");
+const { executeCommandRollbackOnError } = require("./databaseCalls");
 
 const schema = Joi.object({
   title: Joi.string().required().trim(),
@@ -29,24 +30,26 @@ class NewProductCreator {
   }
 
   async addFile(name, stream, filename, contentType) {
-    const productDatabase = await this.productDatabasePromise;
-    if (name === "images") {
-      const imageId = await productDatabase.insertProductImage(stream, contentType);
-      this.imageIds.push(imageId);
-    }
+    await executeCommandRollbackOnError(await this.productDatabasePromise, async (productDatabase) => {
+      if (name === "images") {
+        const imageId = await productDatabase.insertProductImage(stream, contentType);
+        this.imageIds.push(imageId);
+      }
+    });
   }
 
   async finish() {
-    const productDatabase = await this.productDatabasePromise;
-    const product = validateAndSanitizeProduct(this.rawFields);
-    const productId = await productDatabase.insertProduct(product);
-    await productDatabase.updateProductIdForImages(productId, this.imageIds);
+    return executeCommandRollbackOnError(await this.productDatabasePromise, async (productDatabase) => {
+      const product = validateAndSanitizeProduct(this.rawFields);
+      const productId = await productDatabase.insertProduct(product);
+      await productDatabase.updateProductIdForImages(productId, this.imageIds);
 
-    await productDatabase.release();
+      await productDatabase.commitAndRelease();
 
-    return {
-      id: productId,
-    };
+      return {
+        id: productId,
+      };
+    });
   }
 }
 

@@ -5,12 +5,12 @@ const util = require("util");
 const { fieldReader: binaryFieldReader } = require("pg-copy-streams-binary");
 const { from: copyFrom, to: copyTo } = require("pg-copy-streams");
 
-const { pool } = require("./pool");
+const { getDatabaseConnection } = require("./Connection");
 
 const pipeline = util.promisify(stream.pipeline);
 
 async function connect() {
-  const connection = await pool.connect();
+  const connection = await getDatabaseConnection();
   return new ProductDatabase(connection);
 }
 
@@ -138,8 +138,12 @@ class ProductDatabase {
     });
   }
 
-  async release() {
-    await this.connection.release();
+  async commitAndRelease() {
+    return this.connection.commitAndRelease();
+  }
+
+  async rollbackAndRelease(err) {
+    return this.connection.rollbackAndRelease(err);
   }
 }
 

@@ -1,11 +1,10 @@
-const { connect } = require("../integration/productDatabase");
+const { withinTransaction } = require("./databaseCalls");
 
 async function getProduct(productId) {
-  const productDatabase = await connect();
-  const product = await productDatabase.findProduct(productId);
-  await productDatabase.release();
-
-  return product;
+  return withinTransaction(async (productDatabase) => {
+    const product = await productDatabase.findProduct(productId);
+    return product;
+  });
 }
 
 module.exports = {
