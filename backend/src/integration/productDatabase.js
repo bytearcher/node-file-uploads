@@ -117,6 +117,9 @@ class ProductDatabase {
       const productImage = {};
       let done = false;
       fieldStream.on("data", (field) => {
+        if (done) {
+          throw new Error("WHERE-clause does not select single row.");
+        }
         if (field.name === "content_type") {
           productImage.contentType = field.value;
         }
