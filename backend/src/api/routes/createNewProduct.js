@@ -45,6 +45,11 @@ async function createNewProductHandler(req, res, next) {
     });
   });
 
+  req.on("aborted", () => {
+    sequentialWorkQueue.pause();
+    newProductCreator.abort();
+  });
+
   req.pipe(busboy);
 }
 

@@ -51,6 +51,11 @@ class NewProductCreator {
       };
     });
   }
+
+  async abort() {
+    const productDatabase = await this.productDatabasePromise;
+    await productDatabase.rollbackAndRelease();
+  }
 }
 
 module.exports = {
