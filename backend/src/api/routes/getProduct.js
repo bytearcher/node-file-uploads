@@ -16,6 +16,8 @@ async function getProductHandler(req, res, next) {
     return res.sendStatus(404);
   }
 
+  res.setTimeout(60 * 1000);
+
   res.send(product);
 }
 

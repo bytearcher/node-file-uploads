@@ -17,6 +17,8 @@ async function createNewProductHandler(req, res, next) {
   const sequentialWorkQueue = new PQueue({ concurrency: 1 });
   const newProductCreator = new NewProductCreator();
 
+  res.setTimeout(60 * 1000);
+
   async function executeSequentiallyAbortOnError(fn) {
     sequentialWorkQueue.add(async () => {
       try {

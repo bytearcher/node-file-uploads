@@ -21,6 +21,9 @@ async function getProductImageHandler(req, res, next) {
     return res.sendStatus(404);
   }
 
+  // note! set timeout at this point, once we have database connection already, otherwise we might be killed while waiting db, and there's no one to end it once it's acquired
+  res.setTimeout(60 * 1000);
+
   res.set({
     "Content-Type": image.contentType,
     "Content-Length": image.contentLength,
