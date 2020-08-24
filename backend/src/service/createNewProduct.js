@@ -1,17 +1,24 @@
-const dummyResponses = require("./dummyResponses");
 
 class NewProductCreator {
+  constructor() {
+    this.product = {};
+    this.imageIds = [];
+  }
+
   async addField(name, value) {
-    console.log(`${name}: ${value}`);
+    this.product[name] = value;
   }
 
   async addFile(name, stream, filename, contentType) {
-    console.log(`${name}: ${filename} (${contentType})`);
-    stream.resume();
+    if (name === "images") {
+      const imageId = await productDatabase.insertProductImage(stream, contentType);
+      this.imageIds.push(imageId);
+    }
   }
 
   async finish() {
-    return dummyResponses.createNewProduct;
+    const productId = await productDatabase.insertProduct(this.product);
+    await productDatabase.updateProductIdForImages(productId, this.imageIds);
   }
 }
 
