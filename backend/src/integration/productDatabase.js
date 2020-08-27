@@ -1,6 +1,11 @@
+const bytea = require("postgres-bytea");
+const stream = require("stream");
+const util = require("util");
 const { from: copyFrom } = require("pg-copy-streams");
 
 const { pool } = require("./pool");
+
+const pipeline = util.promisify(stream.pipeline);
 
 async function connect() {
   const connection = await pool.connect();
@@ -30,7 +35,7 @@ class ProductDatabase {
     toDatabase.write(id + "\t");
     toDatabase.write(contentType + "\t");
 
-    stream.pipe(toDatabase);
+    await pipeline(stream, new bytea.Encoder(), toDatabase);
   }
 
   async updateProductIdForImages(productId, imageIds) {}

@@ -14,7 +14,8 @@
     "express-async-handler": "1.1.4",
     "morgan": "1.9.1",
     "pg": "8.3.0",
-    "pg-copy-streams": "5.1.1"
+    "pg-copy-streams": "5.1.1",
+    "postgres-bytea": "3.0.0"
   },
   "devDependencies": {
     "@bytearcher/eslint-config-node": "github:bytearcher/eslint-config-node",
