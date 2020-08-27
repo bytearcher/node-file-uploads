@@ -43,7 +43,15 @@ class ProductDatabase {
     return id;
   }
 
-  async updateProductIdForImages(productId, imageIds) {}
+  async updateProductIdForImages(productId, imageIds) {
+    await this.connection.query(
+      `
+                UPDATE image
+                SET product_id = $1
+                WHERE id = ANY ($2::INT[])`,
+      [productId, imageIds]
+    );
+  }
 
   async release() {
     await this.connection.release();
