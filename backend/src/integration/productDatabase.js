@@ -2,7 +2,7 @@ const bytea = require("postgres-bytea");
 const cleanDeep = require("clean-deep");
 const stream = require("stream");
 const util = require("util");
-const { from: copyFrom } = require("pg-copy-streams");
+const { from: copyFrom, to: copyTo } = require("pg-copy-streams");
 
 const { pool } = require("./pool");
 
@@ -91,6 +91,17 @@ class ProductDatabase {
     );
     // remove nulls with cleanDeep
     return cleanDeep(result.rows);
+  }
+
+  async findProductImage(productId, imageId) {
+    const fromDatabase = this.connection.query(
+      copyTo(`
+        COPY (SELECT content_type, image
+              FROM image
+              WHERE id = ${parseInt(imageId)}
+                AND product_id = ${parseInt(productId)})
+          TO STDOUT BINARY`)
+    );
   }
 
   async release() {
