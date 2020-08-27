@@ -22,6 +22,10 @@ class ProductDatabase {
     return response.rows[0].id;
   }
 
+  async insertProductImage(stream, contentType) {}
+
+  async updateProductIdForImages(productId, imageIds) {}
+
   async release() {
     await this.connection.release();
   }
