@@ -30,12 +30,17 @@ class ProductDatabase {
   }
 
   async insertProductImage(stream, contentType) {
+    const response = await this.connection.query(`SELECT nextval('image_id_seq') AS id`);
+    const id = response.rows[0].id;
+
     const toDatabase = this.connection.query(copyFrom(`COPY image (id, content_type, image) FROM STDIN`));
 
     toDatabase.write(id + "\t");
     toDatabase.write(contentType + "\t");
 
     await pipeline(stream, new bytea.Encoder(), toDatabase);
+
+    return id;
   }
 
   async updateProductIdForImages(productId, imageIds) {}
