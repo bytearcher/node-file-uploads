@@ -1,3 +1,5 @@
+const { from: copyFrom } = require("pg-copy-streams");
+
 const { pool } = require("./pool");
 
 async function connect() {
@@ -22,7 +24,14 @@ class ProductDatabase {
     return response.rows[0].id;
   }
 
-  async insertProductImage(stream, contentType) {}
+  async insertProductImage(stream, contentType) {
+    const toDatabase = this.connection.query(copyFrom(`COPY image (id, content_type, image) FROM STDIN`));
+
+    toDatabase.write(id + "\t");
+    toDatabase.write(contentType + "\t");
+
+    stream.pipe(toDatabase);
+  }
 
   async updateProductIdForImages(productId, imageIds) {}
 
