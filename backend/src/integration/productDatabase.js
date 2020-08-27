@@ -1,5 +1,7 @@
+const { pool } = require("./pool");
+
 async function connect() {
-  const connection;
+  const connection = await pool.connect();
   return new ProductDatabase(connection);
 }
 
@@ -24,3 +26,7 @@ class ProductDatabase {
     await this.connection.release();
   }
 }
+
+module.exports = {
+  connect,
+};
