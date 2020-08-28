@@ -2,6 +2,7 @@ const bytea = require("postgres-bytea");
 const cleanDeep = require("clean-deep");
 const stream = require("stream");
 const util = require("util");
+const { fieldReader: binaryFieldReader } = require("pg-copy-streams-binary");
 const { from: copyFrom, to: copyTo } = require("pg-copy-streams");
 
 const { pool } = require("./pool");
@@ -102,6 +103,30 @@ class ProductDatabase {
                 AND product_id = ${parseInt(productId)})
           TO STDOUT BINARY`)
     );
+
+    const fieldStream = binaryFieldReader({
+      mapping: [
+        { key: "content_type", type: "text" },
+        { key: "image", type: "bytea", mode: "async" },
+      ],
+    });
+
+    fromDatabase.pipe(fieldStream);
+
+    return new Promise((resolve, reject) => {
+      const productImage = {};
+      fieldStream.on("data", (field) => {
+        if (field.name === "content_type") {
+          productImage.contentType = field.value;
+        }
+        if (field.name === "image") {
+          productImage.contentLength = field._fieldLength;
+          productImage.stream = field.value;
+          resolve(productImage);
+        }
+      });
+      fieldStream.on("end", () => {});
+    });
   }
 
   async release() {
