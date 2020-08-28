@@ -115,6 +115,7 @@ class ProductDatabase {
 
     return new Promise((resolve, reject) => {
       const productImage = {};
+      let done = false;
       fieldStream.on("data", (field) => {
         if (field.name === "content_type") {
           productImage.contentType = field.value;
@@ -123,9 +124,14 @@ class ProductDatabase {
           productImage.contentLength = field._fieldLength;
           productImage.stream = field.value;
           resolve(productImage);
+          done = true;
         }
       });
-      fieldStream.on("end", () => {});
+      fieldStream.on("end", () => {
+        if (!done) {
+          resolve();
+        }
+      });
     });
   }
 
